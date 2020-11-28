@@ -25,7 +25,7 @@ Like this let connection = mysql.createConnection({
 
 
 # How to run this app.
-Ensure your database is setup and run node server.js to start the application.
+Ensure your database is setup and run ```node server.js```    to start the application.
 
 
 ## Supporting image
@@ -35,3 +35,7 @@ Ensure your database is setup and run node server.js to start the application.
 
 
 
+
+```javascript
+node server.js
+```
