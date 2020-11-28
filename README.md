@@ -33,12 +33,3 @@ Ensure your database is setup and run ```node server.js```    to start the appli
 
 ## Supporting image
 ![](img/Screen%20Shot%202020-11-28%20at%2012.48.38%20PM.png)
-
-
-
-
-
-
-```javascript
-node server.js
-```
