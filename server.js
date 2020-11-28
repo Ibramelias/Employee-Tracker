@@ -1,15 +1,15 @@
 
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-const table = require('console.table');
+const cTable = require('console.table');
 
 // create the connection information for the sql database
-var connection = mysql.createConnection({
+let connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
   password: "password",
-  database: "employees_DB"
+  database: "employees_db"
 });
 
 // connect to the mysql server and sql database
@@ -46,223 +46,169 @@ function start() {
 function view() {
   inquirer
     .prompt({
-      name: "Views",
+      name: "View",
       type: "list",
       message: "What would you like to see ?",
-      choices: ["Department", "Empolyees", "Roles", "All"]
-    })
-  .then(function (answer) {
+      choices: ["Department", "Employees", "Roles", "All"]
+    }).then(function (answer) {
       // based on their answer, either call the bid or the post functions
-      switch (answer.Views) {
+      switch (answer.View) {
         case "Department":
-          con.query("SELECT * FROM department", function (err, results) {
-            if (err) throw err;
-            // once you have the items, prompt the user for which they'd like to bid on
-            else {
-              console.table(results)
-              start();
-            }
+          connection.query("SELECT * FROM department", function (err, result) {
+            console.table(result)
+            start();
           });
           break;
-        case "Empolyees":
-          con.query("SELECT * FROM empolyee", function (err, results) {
-            if (err) throw err;
-            // once you have the items, prompt the user for which they'd like to bid on
-            else {
-              console.table(results)
-              start();
-            }
+        case "Employees":
+          connection.query("SELECT * FROM employee", function (err, result) {
+            console.table(result)
+            start();
           });
           break;
         case "Roles":
-          con.query("SELECT * FROM role", function (err, results) {
-            if (err) throw err;
-            // once you have the items, prompt the user for which they'd like to bid on
-            else {
-              console.table(results)
-              start();
-            }
+          connection.query("SELECT * FROM role", function (err, result) {
+            console.table(result)
+            start();
           });
           break;
         case "All":
-          con.query("", function (err, results) {
-            if (err) throw err;
-            // once you have the items, prompt the user for which they'd like to bid on
-            else {
-              console.table(results)
-              start();
-            }
+          connection.query("select employee.first_name, employee.last_name, role.title, role.salary, department.name from employee INNER join role  on employee.role_id = role.id INNER join department  on role.department_id = department.id order by department.name;", function (results) {
+            console.table(results)
+            start();
           });
           break;
+        case "Start":
+          start();
+          break;
+
       }
     });
 }
 
 
-
-
-
-
-
-
-
-// function viewDepartment() {
-//   // query the database for all items being auctioned
-
-// }
-// function viewEmpolyee() {
-//   // query the database for all items being auctioned
-//   connection.query("SELECT * FROM empolyee", function (err, results) {
-//     if (err) throw err;
-//     // once you have the items, prompt the user for which they'd like to bid on
-//     else {
-//       console.table(results)
-//       start();
-//     }
-//   });
-// }
-// function viewRole() {
-//   // query the database for all items being auctioned
-//   connection.query("SELECT * FROM role", function (err, results) {
-//     if (err) throw err;
-//     // once you have the items, prompt the user for which they'd like to bid on
-//     else {
-//       console.table(results)
-//       start();
-//     }
-//   });
-// }
-// function viewAll() {
-//   // query the database for all items being auctioned
-//   connection.query("", function (err, results) {
-//     if (err) throw err;
-//     // once you have the items, prompt the user for which they'd like to bid on
-//     else {
-//       console.table(results)
-//       start();
-//     }
-//   });
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function viewDepartment() {
-//   // query the database for all items being auctioned
-//   connection.query("SELECT * FROM department", function (err, results) {
-//     if (err) throw err;
-//     // once you have the items, prompt the user for which they'd like to bid on
-//     else {
-//       console.table(results)
-//       start();
-//     }
-//   });
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /////////////////////////////////////////////////////////////////////////////
-function viewRole() {
-  // query the database for all items being auctioned
-  connection.query("SELECT * FROM role", function (err, results) {
-    if (err) throw err;
-    // once you have the items, prompt the user for which they'd like to bid on
-    else {
-      console.table(results)
-      start();
+function add() {
+  inquirer.prompt(
+    {
+      name: "add",
+      type: "list",
+      message: "Select what you want to add",
+      choices: ["Add Employee", "Add Role", "Add Departmet"]
     }
-  });
-};
-function viewEmpolyee() {
-  // query the database for all items being auctioned
-  connection.query("SELECT * FROM empolyee", function (err, results) {
-    if (err) throw err;
-    // once you have the items, prompt the user for which they'd like to bid on
-    else {
-      console.table(results)
-      start();
+  ).then(function (answer) {
+    if (answer.add === "Add Employee") {
+      inquirer.prompt([
+        {
+          name: "first_name",
+          type: "input",
+          message: "First Name"
+        },
+        {
+          name: "last_name",
+          type: "input",
+          message: "Last Name"
+        },
+        {
+          name: "role_id",
+          type: "number",
+          message: "Role ID"
+        }
+      ]).then(function (answer) {
+        connection.query(
+          "INSERT INTO employee SET ?",
+          {
+            first_name: answer.first_name,
+            last_name: answer.last_name,
+            role_id: answer.role_id
+          },
+          function (err) {
+            if (err) throw err;
+            console.log(`Added employee ${answer.first_name} ${answer.last_name}`);
+            start();
+          }
+        )
+      });
+    } else if (answer.add === "Add Role") {
+      inquirer.prompt([
+        {
+          name: "title",
+          type: "input",
+          message: "Title"
+        },
+        {
+          name: "salary",
+          type: "input",
+          message: "Salary"
+        },
+        {
+          name: "department_id",
+          type: "number",
+          message: "Department ID"
+        }
+      ]).then(function (answer) {
+        connection.query(
+          "INSERT INTO role SET ?",
+          {
+            title: answer.title,
+            salary: answer.salary,
+            department_id: answer.department_id
+          },
+          function (err) {
+            if (err) throw err;
+            console.log(`Added employee role ${answer.title} ${answer.salary}`);
+            start();
+          }
+        )
+      });
+    } else if (answer.add === "Add Departmet") {
+      inquirer.prompt(
+        {
+          name: "name",
+          type: "input",
+          message: "Name"
+        }
+      ).then(function (answer) {
+        connection.query(
+          "INSERT INTO department SET ?",
+          {
+            name: answer.name,
+          },
+          function (err) {
+            if (err) throw err;
+            console.log(`Added department ${answer.name}`);
+            start();
+          }
+        )
+      });
     }
+  })
+}
+
+function update() {
+  inquirer.prompt([
+    {
+      name: "title",
+      type: "input",
+      message: "New title"
+    },
+    {
+      name: "salary",
+      type: "number",
+      message: "New salary"
+    }
+  ]).then(function (answer) {
+    connection.query(
+      "UPDATE role SET title = ? SET salary = ?",
+      {
+        title: answer.title,
+        salary: answer.salary
+      },
+      function (err) {
+        if (err) throw err;
+        console.log(`Updated ${answer.first_name} ${answer.last_name}' title and salary to ${answer.title} ${answer.salary}`);
+        start();
+      }
+    )
+
   });
-};
 
-function addDepartment() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "What is employee's first name ?"
-      },
-      {
-        type: "input",
-        name: "What is employee's last name ?"
-      },
-      {
-
-        type: "input",
-        name: "What is empolyee's department ?"
-      },
-      {
-
-        type: "input",
-        name: "What is empolyee's role ?"
-      },
-    ])
-    .then(function (answer) {
-      // based on their answer, either call the bid or the post functions
-      if (table.answer === "department") {
-        addDepartment();
-      }
-      else if (answer.answe === "role") {
-        addRole();
-      } else if (answer.answe === "empolyee") {
-        updateEmpolyee();
-      } else {
-        connection.end();
-      }
-    });
 }

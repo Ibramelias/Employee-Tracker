@@ -22,7 +22,7 @@ PRIMARY KEY (id)
 
 
 -- Create the Employee table.
-CREATE TABLE empolyee(
+CREATE TABLE employee(
 id int NOT NULL AUTO_INCREMENT,
 first_name varchar(30) NOT NULL,
 last_name VARCHAR (30) NOT NULL,
@@ -32,9 +32,9 @@ PRIMARY KEY (id)
 
 
 -- Inset data (empolyee table).
-INSERT INTO empolyee (first_name , last_name, role_id) VALUES ("Ibram","Elias", 1);
-INSERT INTO empolyee (first_name , last_name, role_id) VALUES ("Mina","Makram",2);
-INSERT INTO empolyee (first_name , last_name, role_id) VALUES ("Joe","Habib",3);
+INSERT INTO employee (first_name , last_name, role_id) VALUES ("Ibram","Elias", 1);
+INSERT INTO employee (first_name , last_name, role_id) VALUES ("Mina","Makram",2);
+INSERT INTO employee (first_name , last_name, role_id) VALUES ("Joe","Habib",3);
 
 
 -- Inset data (role table).
@@ -51,29 +51,10 @@ INSERT INTO department (name) VALUES ("design");
 
 SELECT * from department;
 SELECT * from role;
-SELECT * from empolyee;
+SELECT * from employee;
 
-select empolyee.first_name, empolyee.last_name, role.title, role.salary, department.name from employee 
-INNER join role  on empolyee.role_id = role.id
-INNER join department  on r.department_id = department.id
+select employee.first_name, employee.last_name, role.title, role.salary, department.name from employee 
+INNER join role  on employee.role_id = role.id
+INNER join department  on role.department_id = department.id
 order by department.name;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
