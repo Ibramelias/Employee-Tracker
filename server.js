@@ -195,25 +195,29 @@ function add() {
 function update() {
   inquirer.prompt([
     {
-      name: "title",
-      type: "input",
-      message: "New title"
+      name: "role_id",
+      type: "number",
+      message: " Enter role id "
     },
     {
-      name: "salary",
+      name: "id",
       type: "number",
-      message: "New salary"
+      message: "Enter the employee id"
     }
   ]).then(function (answer) {
     connection.query(
-      "UPDATE role SET title = ? SET salary = ?",
-      {
-        title: answer.title,
-        salary: answer.salary
-      },
+      "UPDATE employee SET role_id = ? WHERE ?",
+     [
+       {
+         role_id: answer.role_id
+       },
+       {
+         id: answer.id
+       }
+      ],
       function (err) {
         if (err) throw err;
-        console.log(`Updated ${answer.first_name} ${answer.last_name}' title and salary to ${answer.title} ${answer.salary}`);
+        console.log(`Updated ${answer.role_id}' to ${answer.id}`);
         start();
       }
     )

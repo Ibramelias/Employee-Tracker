@@ -35,19 +35,25 @@ PRIMARY KEY (id)
 INSERT INTO employee (first_name , last_name, role_id) VALUES ("Ibram","Elias", 1);
 INSERT INTO employee (first_name , last_name, role_id) VALUES ("Mina","Makram",2);
 INSERT INTO employee (first_name , last_name, role_id) VALUES ("Joe","Habib",3);
-
+INSERT INTO employee (first_name , last_name, role_id) VALUES ("Mark","William", 4);
+INSERT INTO employee (first_name , last_name, role_id) VALUES ("Geroge","Edwar",5);
+INSERT INTO employee (first_name , last_name, role_id) VALUES ("Jack","Edwar",6);
 
 -- Inset data (role table).
 INSERT INTO role (title , salary, department_id) VALUES ("accountant","8000",1);
 INSERT INTO role (title , salary, department_id) VALUES ("developer","12000",2);
 INSERT INTO role (title , salary, department_id) VALUES ("desginer","15000",3);
-
+INSERT INTO role (title , salary, department_id) VALUES ("doctor","1000",4);
+INSERT INTO role (title , salary, department_id) VALUES ("engineer","13000",5);
+INSERT INTO role (title , salary, department_id) VALUES ("auditor","7000",6);
 
 -- Inset data (department table).
 INSERT INTO department (name) VALUES ("finance");
 INSERT INTO department (name) VALUES ("IT");
 INSERT INTO department (name) VALUES ("design");
-
+INSERT INTO department (name) VALUES ("health");
+INSERT INTO department (name) VALUES ("civic");
+INSERT INTO department (name) VALUES ("finance");
 
 SELECT * from department;
 SELECT * from role;
