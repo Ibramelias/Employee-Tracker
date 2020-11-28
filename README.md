@@ -15,13 +15,14 @@ So that you can organize and plan your business.
 * Clone the repo.
 * Paste the employee_sql file into MYSQL Workbench and run the queries.
 * Make sur you lines 7-13 from server.js file (This is you database connector) 
-Like this let connection = mysql.createConnection({
+```Like this let connection = mysql.createConnection({
   host: "localhost",
   port: (Put your own port number),
   user: "root",
   password: "password",
   database: "employees_db"
 });
+```
 
 
 # How to run this app.
