@@ -29,7 +29,7 @@ function start() {
       choices: ["View", "Add", "Update"]
     })
     .then(function (answer) {
-      // based on their answer, either call the bid or the post functions
+      // based on their answer, either call Add, View or post functions
       if (answer.UserOptions === "View") {
         view();
       } else if (answer.UserOptions === "Add") {
@@ -43,6 +43,7 @@ function start() {
     });
 }
 
+// View all date.
 function view() {
   inquirer
     .prompt({
@@ -51,29 +52,33 @@ function view() {
       message: "What would you like to see ?",
       choices: ["Department", "Employees", "Roles", "All"]
     }).then(function (answer) {
-      // based on their answer, either call the bid or the post functions
+      // based on their answer, either View department, view roles, view employee or view all data functions
       switch (answer.View) {
+        // View department.....
         case "Department":
           connection.query("SELECT * FROM department", function (err, result) {
             console.table(result)
             start();
           });
           break;
+          //View employees data ......
         case "Employees":
           connection.query("SELECT * FROM employee", function (err, result) {
             console.table(result)
             start();
           });
           break;
+          // View roles.......
         case "Roles":
           connection.query("SELECT * FROM role", function (err, result) {
             console.table(result)
             start();
           });
           break;
+          // View all data.......
         case "All":
-          connection.query("select employee.first_name, employee.last_name, role.title, role.salary, department.name from employee INNER join role  on employee.role_id = role.id INNER join department  on role.department_id = department.id order by department.name;", function (results) {
-            console.table(results)
+          connection.query("select employee.first_name, employee.last_name, role.title, role.salary, department.name from employee INNER join role  on employee.role_id = role.id INNER join department  on role.department_id = department.id order by department.name;", function (err, result) {
+            console.table(result)
             start();
           });
           break;
@@ -85,7 +90,7 @@ function view() {
     });
 }
 
-
+// Insert New data to tables....
 function add() {
   inquirer.prompt(
     {
@@ -95,6 +100,7 @@ function add() {
       choices: ["Add Employee", "Add Role", "Add Departmet"]
     }
   ).then(function (answer) {
+    // INSERT NEW EMPLOYEE....
     if (answer.add === "Add Employee") {
       inquirer.prompt([
         {
@@ -127,6 +133,7 @@ function add() {
           }
         )
       });
+      // INSERT NEW ROLE....
     } else if (answer.add === "Add Role") {
       inquirer.prompt([
         {
@@ -159,6 +166,7 @@ function add() {
           }
         )
       });
+      // INSERT NEW DEPARTMENT....
     } else if (answer.add === "Add Departmet") {
       inquirer.prompt(
         {
@@ -183,6 +191,7 @@ function add() {
   })
 }
 
+// UDPATED EMPLOYEE ROLE DATA.....
 function update() {
   inquirer.prompt([
     {
