@@ -49,7 +49,7 @@ INSERT INTO role (title , salary, department_id) VALUES ("auditor","7000",6);
 
 -- Inset data (department table).
 INSERT INTO department (name) VALUES ("finance");
-INSERT INTO department (name) VALUES ("IT");
+INSERT INTO department (name) VALUES ("IT");                    
 INSERT INTO department (name) VALUES ("design");
 INSERT INTO department (name) VALUES ("health");
 INSERT INTO department (name) VALUES ("civic");
